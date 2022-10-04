@@ -51,7 +51,7 @@ async fn discord(Path((id, id2, img)): Path<(String, String, String)>) -> Respon
 async fn main() {
     let app = Router::new()
       .route("/l/:id", get(redirect))
-      .route("/", get(github))
+      .route("/", get(default))
       .route("/d/:id/:id2/:img", get(discord))
       .route("/profile", get(profile));
     let ip = env::var("IP").unwrap_or("0.0.0.0".parse().unwrap());
