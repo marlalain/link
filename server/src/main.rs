@@ -1,3 +1,4 @@
+use std::collections::HashMap;
 use std::env;
 use std::net::SocketAddr;
 use std::str::FromStr;
@@ -6,7 +7,7 @@ use axum::body::{Bytes, Empty};
 use axum::http::StatusCode;
 use axum::response::Response;
 use axum::routing::get;
-use axum::extract::{Path};
+use axum::extract::{Path, Query};
 
 fn links(q: &str) -> &str {
     std::collections::HashMap::from([
@@ -31,6 +32,14 @@ async fn default() -> Response<Empty<Bytes>> {
       .unwrap()
 }
 
+async fn spotify(Path(id): Path<String>, axum::extract::Query(params): axum::extract::Query<std::collections::HashMap<String, String>>) -> Response<Empty<Bytes>> {
+    Response::builder()
+      .status(StatusCode::PERMANENT_REDIRECT)
+      .header("location", format!("https://open.spotify.com/track/{}?si={}", id, params.get("si").unwrap()))
+      .body(Empty::new())
+      .unwrap()
+}
+
 async fn profile() -> Response<Empty<Bytes>> {
     Response::builder()
       .status(StatusCode::PERMANENT_REDIRECT)
@@ -51,6 +60,7 @@ async fn discord(Path((id, id2, img)): Path<(String, String, String)>) -> Respon
 async fn main() {
     let app = Router::new()
       .route("/l/:id", get(redirect))
+      .route("/s/:id", get(spotify))
       .route("/", get(default))
       .route("/d/:id/:id2/:img", get(discord))
       .route("/profile", get(profile));
