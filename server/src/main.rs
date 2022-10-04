@@ -10,7 +10,8 @@ use axum::extract::{Path};
 
 fn links(q: &str) -> &str {
     std::collections::HashMap::from([
-        ("twitter", "https://twitter.com/alexsyntaxtree")
+        ("twitter", "https://twitter.com/alexsyntaxtree"),
+        ("github", "https://github.com/minsk-dev")
     ]).get(q).unwrap_or(&"https://github.com/minsk-dev")
 }
 
