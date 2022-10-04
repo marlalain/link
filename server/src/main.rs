@@ -5,6 +5,8 @@ use axum::response::Response;
 use axum::routing::get;
 
 async fn redirect() -> Response<Empty<Bytes>> {
+    println!("redirecting...");
+
     Response::builder()
       .status(StatusCode::PERMANENT_REDIRECT)
       .header("Location", "https://cdn.discordapp.com/attachments/885709126267732029/1026639328140599316/8db5a3c3dbf13c701c46b7b28a3c685d.jpg")
