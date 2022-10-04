@@ -23,10 +23,10 @@ async fn redirect(Path(id): Path<String>) -> Response<Empty<Bytes>> {
       .unwrap()
 }
 
-async fn github() -> Response<Empty<Bytes>> {
+async fn default() -> Response<Empty<Bytes>> {
     Response::builder()
       .status(StatusCode::PERMANENT_REDIRECT)
-      .header("location", "https://github.com/minsk-dev")
+      .header("location", "https://twitter.com/alexsyntaxtree")
       .body(Empty::new())
       .unwrap()
 }
