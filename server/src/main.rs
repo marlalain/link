@@ -1,4 +1,6 @@
 use std::env;
+use std::net::SocketAddr;
+use std::str::FromStr;
 use axum::{Router, Server};
 use axum::body::{Bytes, Empty};
 use axum::http::StatusCode;
@@ -21,8 +23,9 @@ async fn main() {
       .route("/profile", get(redirect));
     let ip = env::var("IP").unwrap_or("0.0.0.0".parse().unwrap());
     let port = env::var("PORT").unwrap_or("80".parse().unwrap());
+    let addr = format!("{}:{}", ip, port);
 
-    Server::bind(format!("{}:{}", ip, port).parse().unwrap())
+    Server::bind(&SocketAddr::from_str(&addr).unwrap())
       .serve(app.into_make_service())
       .await
       .unwrap();
