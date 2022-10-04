@@ -16,10 +16,12 @@ async fn redirect() -> Response<Empty<Bytes>> {
       .unwrap()
 }
 
-async fn discord(Path(id): Path<String>) -> Response<Empty<Bytes>> {
+async fn discord(Path((id, id2, img)): Path<(String, String, String)>) -> Response<Empty<Bytes>> {
+    println!("https://cdn.discordapp.com/attachments/{}/{}/{}", id, id2, img);
+
     Response::builder()
       .status(StatusCode::PERMANENT_REDIRECT)
-      .header("location", format!("https://cdn.discordapp.com/attachments/{}", id))
+      .header("location", format!("https://cdn.discordapp.com/attachments/{}/{}/{}", id, id2, img))
       .body(Empty::new())
       .unwrap()
 }
@@ -27,7 +29,7 @@ async fn discord(Path(id): Path<String>) -> Response<Empty<Bytes>> {
 #[tokio::main]
 async fn main() {
     let app = Router::new()
-      .route("/d/:id", get(discord))
+      .route("/d/:id/:id2/:img", get(discord))
       .route("/profile", get(redirect));
     let ip = env::var("IP").unwrap_or("0.0.0.0".parse().unwrap());
     let port = env::var("PORT").unwrap_or("80".parse().unwrap());
