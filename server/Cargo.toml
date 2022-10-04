@@ -6,5 +6,5 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-axum = { version = "0.6.0-rc.2", features = ["default", "headers"] }
-tokio = { version = "1.21.2", features = ["full"] }
+axum = { version = "0.6.0-rc.2", features = ["default"] }
+tokio = { version = "1.21.2", features = ["default"] }

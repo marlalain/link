@@ -3,6 +3,10 @@ name = "link"
 version = "0.1.0"
 edition = "2021"
 
+[[bin]]
+name = "link-server"
+path = "server/src/main.rs"
+
 [workspace]
 members = [
     "cli",
