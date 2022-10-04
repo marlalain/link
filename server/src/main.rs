@@ -8,6 +8,20 @@ use axum::response::Response;
 use axum::routing::get;
 use axum::extract::{Path};
 
+async fn redirect(Path(id): Path<String>) -> Response<Empty<Bytes>> {
+    Response::builder()
+      .status(StatusCode::PERMANENT_REDIRECT)
+      .header("location", links(id))
+      .body(Empty::new())
+      .unwrap()
+}
+
+fn links(q: &str) -> &str {
+    std::collections::HashMap::from([
+        ("twitter", "https://twitter.com/alexsyntaxtree")
+    ]).get(q).unwrap_or(&"https://github.com/minsk-dev")
+}
+
 async fn github() -> Response<Empty<Bytes>> {
     Response::builder()
       .status(StatusCode::PERMANENT_REDIRECT)
